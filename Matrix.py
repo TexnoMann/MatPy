@@ -12,7 +12,12 @@ class Matrix():
 		return Matrix(list(map(lambda a,b: map( lambda c,d : c+d ,a,b), self.__matrix, other.__matrix)))
 
 	def __str__(self):
-		return str(self.getMatrixInList())
+		stringMatrix=""
+		for i in range(self.__rowCount):
+			for j in range(self.__columnCount):
+				stringMatrix+=str(self.__matrix[i][j]) + " "
+			stringMatrix+="\n"
+		return stringMatrix
 
 	def __mul__(self,other):
 		assert isinstance(other,(int,float)) or isinstance(other, Matrix), "This is not matrixs or , Matrix and Scalar"
@@ -21,9 +26,12 @@ class Matrix():
 		elif isinstance(other,(int,float)):
 			return self.__scalarMul(other)
 
+	def __truediv__(self, other):
+		return self.__scalarMul(1.0/other)
+
 
 	def __scalarMul(self,other):
-		return Matrix(list(map(lambda x: map(lambda y: y*other ,x), self.__matrix)))
+		return Matrix(list(map(lambda x: list(map(lambda y: y*other ,x)), self.__matrix)))
 
 	def __matrixMul(self,other):
 		__mat=[]
@@ -59,7 +67,7 @@ class Matrix():
 		return Matrix(self.__matrix[index])
 
 	def getCollumn(self,index):
-		return Matrix(map(lambda x: [x[index]], self.__matrix))
+		return Matrix(list(map(lambda x: [x[index]], self.__matrix)))
 
 	def transpose(self):
 		return Matrix(list(map(list,zip(*self.__matrix))))
