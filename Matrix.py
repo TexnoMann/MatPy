@@ -1,7 +1,7 @@
 class Matrix():
 	def __init__(self, lists):
 		assert(lists), "This is empty list from initialization matrix"
-		self.__matrix=lists
+		self.__matrix=lists.copy()
 		self.__rowCount=len(self.__matrix)
 		self.__columnCount= len(self.__matrix[0])
 		for i in range(len(self.__matrix)):
