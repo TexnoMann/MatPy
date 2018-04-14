@@ -9,7 +9,12 @@ class Matrix():
 
 
 	def __add__(self,other):
-		return Matrix(list(map(lambda a,b: map( lambda c,d : c+d ,a,b), self.__matrix, other.__matrix)))
+		assert((self.__rowCount==other.__rowCount) and (self.__columnCount==other.__columnCount)), " Dimension Error from Sum operation"
+		return Matrix(list(map(lambda a,b: list(map( lambda c,d : c+d ,a,b)), self.__matrix, other.__matrix)))
+
+	def __sub__(self, other):
+		assert((self.__rowCount==other.__rowCount) and (self.__columnCount==other.__columnCount)), " Dimension Error from Sub operation"
+		return Matrix(list(map(lambda a,b: list(map( lambda c,d : c-d ,a,b)), self.__matrix, other.__matrix)))
 
 	def __str__(self):
 		stringMatrix=""
