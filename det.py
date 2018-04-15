@@ -8,13 +8,13 @@ for k in range(0, n-1):
             max_s=i
         else:
             break
-    if(max_s <> k):
+    if(max_s != k):
         det= det*(-1)
         for j in range(0,n):
             temp=Matrix[k][j]
             Matrix[k][j]=Matrix[max_s][j]
             Matrix[max_s][j]=temp
-    if(Matrix[k][k]<>0):
+    if(Matrix[k][k] != 0):
         for i in range(k+1, n):
             coeff=(Matrix[i][k]*1.0)/Matrix[k][k]
             for j in range(0, n):
