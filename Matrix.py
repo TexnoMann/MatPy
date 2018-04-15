@@ -40,7 +40,7 @@ class Matrix():
 
 	def __matrixMul(self,other):
 		__mat=[]
-		assert self.__rowCount==other.__columnCount, "Dimension Error!"
+		assert self.__columnCount==other.__rowCount, "Dimension Error!"
 		for row in self.__matrix:
 			__rowM=[]
 			for col in other.transpose().__matrix:
@@ -61,11 +61,13 @@ class Matrix():
 	def getMatrixInList(self):
 		return self.__matrix
 
-	def addRow(self, row):
-		self.__matrix.append(row)
+	def addRow(self, matrixRow):
+		self.__matrix.append(matrixRow.__matrix[0])
+		self.__rowCount+=1
 
-	def addColumn(self,collumn):
-		list(map(lambda x, y: x.append(y[0]),self.__matrix, collumn.__matrix))
+	def addColumn(self,matrixCollumn):
+		list(map(lambda x, y: x.append(y[0]),self.__matrix, matrixCollumn.__matrix))
+		self.__columnCount+=1
 
 
 	def getRow(self, index):
@@ -76,3 +78,9 @@ class Matrix():
 
 	def transpose(self):
 		return Matrix(list(map(list,zip(*self.__matrix))))
+
+	def getRowCount(self):
+		return self.__rowCount
+
+	def getCollumnCount(self):
+		return self.__columnCount
