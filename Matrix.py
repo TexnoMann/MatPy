@@ -20,7 +20,7 @@ class Matrix():
 		for i in range(self.__rowCount):
 			for j in range(self.__columnCount):
 				stringMatrix+=str(self.__matrix[i][j]) + " "
-				stringMatrix+="\n"
+			stringMatrix+=" \n"
 		return stringMatrix
 
 
@@ -85,38 +85,66 @@ class Matrix():
 	def getCollumnCount(self):
 		return self.__columnCount
 
-	def trigon(self,n):
-		det=1
-		new_list = list(self.__matrix)
-		for k in range(0, n-1):
-			max_s=k
-			for i in range(k+1, n):
-				if (abs(new_list[i][k])>abs(new_list[k][k])):
-					max_s=i
-				else:
-					break
-			if(max_s != k):
-				det= det*(-1)
-				for j in range(0,n):
-					temp=new_list[k][j]
-					new_list[k][j]=new_list[max_s][j]
-					new_list[max_s][j]=temp
-			if(new_list[k][k]!=0):
-				for i in range(k+1, n):
-					coeff=(new_list[i][k]*1.0)/new_list[k][k]
-					for j in range(0, n):
-						new_list[i][j]=new_list[i][j]-coeff*new_list[k][j]
-						new_list[i][j]=round(new_list[i][j],5)
-						if abs(new_list[i][j])<=0.00001:
-							new_list[i][j]=0
-			else:
-				break
-		return new_list
+	def __getDiagonalEqualsMatrix(self):
+		matrixDiagonal=self.__matrix.copy()
+		assert(self.__columnCount == self.__rowCount), "Dimension Error"
 
-	def getDeterminant(self,n):
-		det=1
-		new_matrix = list(self.__matrix)
-		new_matrix = new_matrix.trigon(n)
-		for i in range(0, n):
-		    det= det * new_matrix[i][i]
-		return(det)
+		for i in range(self.__columnCount):
+			for j in range(self.__rowCount):
+				temprow=[]
+				if i !=j  and matrixDiagonal[i][i]!=0 and matrixDiagonal[j][i]!=0:
+					temprow= list(map(lambda x: x/matrixDiagonal[i][i]*(-1)*matrixDiagonal[j][i],matrixDiagonal[i]))
+					matrixDiagonal[j]=list(map(lambda x, y: x+y, temprow, matrixDiagonal[j]))
+		return matrixDiagonal;
+
+	def getDeterminant(self):
+		matrixDiagonal=self.__getDiagonalEqualsMatrix()	
+		determinant=1.0
+		for i in range(self.__rowCount): determinant*=matrixDiagonal[i][i]
+		return round(determinant,5)
+
+	def getRang(self):
+		matrixDiagonal=self.__getDiagonalEqualsMatrix()	
+		rang = 0
+		for i in range(self.__rowCount):
+			countZero=0
+			for j in range(self.__columnCount): 
+				if matrixDiagonal[i][j]==0: countZero+=1
+			if countZero != self.__columnCount: rang+=1
+		return rang
+
+	# def trigon(self,n):
+	# 	det=1
+	# 	new_list = list(self.__matrix)
+	# 	for k in range(0, n-1):
+	# 		max_s=k
+	# 		for i in range(k+1, n):
+	# 			if (abs(new_list[i][k])>abs(new_list[k][k])):
+	# 				max_s=i
+	# 			else:
+	# 				break
+	# 		if(max_s != k):
+	# 			det= det*(-1)
+	# 			for j in range(0,n):
+	# 				temp=new_list[k][j]
+	# 				new_list[k][j]=new_list[max_s][j]
+	# 				new_list[max_s][j]=temp
+	# 		if(new_list[k][k]!=0):
+	# 			for i in range(k+1, n):
+	# 				coeff=(new_list[i][k]*1.0)/new_list[k][k]
+	# 				for j in range(0, n):
+	# 					new_list[i][j]=new_list[i][j]-coeff*new_list[k][j]
+	# 					new_list[i][j]=round(new_list[i][j],5)
+	# 					if abs(new_list[i][j])<=0.00001:
+	# 						new_list[i][j]=0
+	# 		else:
+	# 			break
+	# 	return new_list
+
+	# def getDeterminant(self,n):
+	# 	det=1
+	# 	new_matrix = list(self.__matrix)
+	# 	new_matrix = new_matrix.trigon(n)
+	# 	for i in range(0, n):
+	# 	    det= det * new_matrix[i][i]
+	# 	return(det)
