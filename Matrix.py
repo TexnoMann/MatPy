@@ -53,6 +53,7 @@ class Matrix():
 		return Matrix(__mat)
 
 	def getInverseMatrix(self):
+		assert(self.__rowCount==self.__columnCount), "Error Dimension!"
 		temp=Matrix(self.__matrix.copy())
 		initEiMatrix=[]
 		for i in range (self.__rowCount):
